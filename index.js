@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 
@@ -7,8 +8,9 @@ const contact = require("./models/contacts.model");
 // const contact = require("./models/contacts.model");
 
 //Database connection
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/contacts-crud")
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("Database Connected: "));
 
 //middlewares
@@ -16,8 +18,14 @@ app.set("view engine", "ejs"); // to use the ejs engine
 app.use(express.urlencoded({ extended: false })); // to convert the data entered by user intp JS objects so that it can be used in the JS file
 app.use(express.static("public")); // To incorporate the static files like CSS, images, sounds etc
 
-app.listen(3001, function () {
-  console.log("SERVER STARTED on PORT 3001: ");
+// app.listen(3001, function () {
+//   console.log("SERVER STARTED on PORT 3001: ");
+// });
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`SERVER STARTED ON PORT ${PORT}`);
 });
 
 //ROUTES
